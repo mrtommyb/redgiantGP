@@ -76,7 +76,7 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
     dil=0.0
 
     period=8.40779432
-    impact=9.19089038
+    impact=9.19089038e-01
     T0=2.30904885e+03
     rprs=2.95201271e-02
     alb=np.log(3.5)
