@@ -112,9 +112,9 @@ class transitemcee_koi2133(transitemcee_rv.transitemcee_rv):
 
         rho_unc = 0.001
         zpt_unc = 1.E-9
-        ld1_unc = 0.02
-        ld2_unc = 0.02
-        veloffset_unc = 10.
+        ld1_unc = 0.001
+        ld2_unc = 0.001
+        veloffset_unc = 2.
         T0_unc = 0.0002
         per_unc = 0.00001
         b_unc = 0.001
@@ -172,7 +172,7 @@ class transitemcee_koi2133(transitemcee_rv.transitemcee_rv):
         p0[...,5] = truncnorm.rvs(start,stop
                 ,loc=Lamp,scale=Lamp_unc,size=nwalkers)
 
-        start,stop = ((1.E-3 - Lwid) / Lwid_unc,
+        start,stop = ((1.E-6 - Lwid) / Lwid_unc,
             (0.5 - Lwid) / Lwid_unc)
         p0[...,6] = truncnorm.rvs(start,stop
                 ,loc=Lwid,scale=Lwid_unc,size=nwalkers)
@@ -239,13 +239,13 @@ class transitemcee_koi2133(transitemcee_rv.transitemcee_rv):
 
     def get_noise_model(self):
         """
-        this is a good noise model guess for koi-2133.
+        this is a good noise model guess for epic 2113.
         """
         #noise_model = np.array([1.13150997e-01, 1.43286469e+00,
         #    1.08756091e-02,
         #    1.37080589e+00, 9.63791885e+00])
         noise_model = [
-            1.E-2, 6.E-2, 5.E-4, 3.]
+            1.6E-4, 4.4E-2, 2.E-4, 3.]
         return noise_model
 
 def logchi2_rv_phaseGP(fitsol,nplanets,rho_0,rho_0_unc,rho_prior,
@@ -566,11 +566,11 @@ def logchi2_rv_phaseGP2(fitsol,nplanets,rho_0,rho_0_unc,rho_prior,
     jitter_lc = fitsol[-2]
     jitter_rv = fitsol[-1]
 
-    if jitter_rv > 25:
+    if jitter_rv > 100:
         return minf
 
     veloffset = fitsol[4]
-    if np.abs(veloffset) > 50:
+    if np.abs(veloffset) > 200:
         return minf
 
     rvamp = fitsol[np.arange(nplanets)*7 + 13]

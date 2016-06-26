@@ -54,6 +54,8 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
 
     ldfileloc = '/Users/tom/gitcode/redgiantGP/code/'
     codedir = '/Users/tom/gitcode/redgiantGP/code'
+    # ldfileloc = '/nobackupp8/tsbarcl2/redgiantGP/code/'        
+    # codedir = '/nobackupp8/tsbarcl2/redgiantGP/code'
 
     koi = 2113
     cadence=1625.3
@@ -148,7 +150,7 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
             if indval%thin == 0])
     with h5py.File(outfile, u"w") as f:
         f.create_dataset("time", data=M.time)
-        f.create_dataset("flux", data=M.flux)
+        f.create_dataset("1.6E-4, 4.4E-2, 2.E-4, 3.flux", data=M.flux)
         f.create_dataset("err", data=M.err)
         f.create_dataset("rvtime", data=M.rvtime)
         f.create_dataset("rvval", data=M.rvval)
@@ -248,12 +250,12 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
 
         if runmpi:
             pool.close()
-        else:
+        elif th > 1:
             sampler.pool.close()
 
         return sampler
 
 if __name__ == '__main__':
-    sampler = main(runmpi=True,nw=70,th=1,bi=1,fr=20,use_hodlr=False)
+    sampler = main(runmpi=True,nw=300,th=1,bi=1,fr=10000,use_hodlr=True)
 
 
