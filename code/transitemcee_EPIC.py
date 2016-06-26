@@ -470,7 +470,8 @@ def logchi2_rv_phaseGP2(fitsol,nplanets,rho_0,rho_0_unc,rho_prior,
     flux,err,fixed_sol,time,itime,ntt,tobs,omc,datatype,
     rvtime,rvval,rverr,rvitime,
     n_ldparams=2,ldfileloc='/Users/tom/svn_code/tom_code/',
-    onlytransits=False,tregion=0.0):
+    onlytransits=False,tregion=0.0,
+    use_hodlr=False):
 
     """
     fitsol should have the format
@@ -565,11 +566,11 @@ def logchi2_rv_phaseGP2(fitsol,nplanets,rho_0,rho_0_unc,rho_prior,
     jitter_lc = fitsol[-2]
     jitter_rv = fitsol[-1]
 
-    if jitter_rv > 100:
+    if jitter_rv > 25:
         return minf
 
     veloffset = fitsol[4]
-    if np.abs(veloffset) > 200:
+    if np.abs(veloffset) > 50:
         return minf
 
     rvamp = fitsol[np.arange(nplanets)*7 + 13]
@@ -629,7 +630,11 @@ def logchi2_rv_phaseGP2(fitsol,nplanets,rho_0,rho_0_unc,rho_prior,
     #do the GP stuff
     resid = flux - model_lc
     kernel = (GP1**2 * ExpSquaredKernel(GP2))
-    gp = george.GP(kernel)
+    if use_hodlr:
+        gp = george.GP(kernel, solver=george.HODLRSolver)
+    else:
+        gp = george.GP(kernel)
+
     lnlike = 0.
 
     # for i in np.arange(len(time) // 1000):
