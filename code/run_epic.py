@@ -51,8 +51,11 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10):
     else:
         pool=None
 
-    ldfileloc = '/Users/tom/gitcode/redgiantGP/code/'
-    codedir = '/Users/tom/gitcode/redgiantGP/code'
+#    ldfileloc = '/Users/tom/gitcode/redgiantGP/code/'
+#    codedir = '/Users/tom/gitcode/redgiantGP/code'
+    ldfileloc = '/nobackupp8/tsbarcl2/redgiantGP/code/'
+    codedir = '/nobackupp8/tsbarcl2/redgiantGP/code'
+
 
     koi = 2113
     cadence=1625.3
@@ -68,16 +71,16 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10):
 
     dil=0.0
 
-    period=8.40477896
-    impact=9.20759558e-01
-    T0=2.30906152e+03
-    rprs=3.15254574e-02
-    alb=10
-    occ=10
-    ell=10
-    rvamp=103.0
-    ecosw=0.048
-    esinw=-0.045
+    period=8.40779432
+    impact=9.19089038
+    T0=2.30904885e+03
+    rprs=2.75201271e-02
+    alb=3.5
+    occ=7.31677271e+00
+    ell=2.27423138e+01
+    rvamp=1.06530139e+02
+    ecosw=-1.05886257e-02
+    esinw=4.45085906e-02
     planet_guess = np.array([
         T0,period,impact,rprs,ecosw,esinw,
         rvamp,occ,ell,alb])
@@ -100,7 +103,7 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10):
     toffset_lc = 0
     toffset_rv = 0
 
-    zpt_0 = 1.E-10
+    zpt_0 = 7.E-6
 
     M = tmod.transitemcee_koi2133(
         nplanets,cadence,
@@ -123,13 +126,13 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10):
     M.get_rho(rho_vals,rho_prior)
     M.get_zpt(zpt_0)
 
-    noise_model = [1.6E-4, 4.4E-2, 2.E-4, 3.]
+    noise_model = [1.6058E-04, 1.87265599E-03, 2.E-4, 3.]
 
 
     if dil is not None:
         M.get_sol(*planet_guess,dil=dil,noise_model=noise_model)
     else:
-        M.get_sol(*planet_guess,noise_model=noise_model)
+        M.get_sol(*planet_guess,noise_model=noise_model,veloffset=40.)
 
 
     outfile = 'koi{0}_np{1}_prior{2}_dil{3}GP.hdf5'.format(
@@ -253,6 +256,6 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10):
         return sampler
 
 if __name__ == '__main__':
-    sampler = main(runmpi=True,nw=70,th=1,bi=1,fr=200)
+    sampler = main(runmpi=True,nw=900,th=1,bi=1,fr=15000)
 
 

@@ -565,11 +565,11 @@ def logchi2_rv_phaseGP2(fitsol,nplanets,rho_0,rho_0_unc,rho_prior,
     jitter_lc = fitsol[-2]
     jitter_rv = fitsol[-1]
 
-    if jitter_rv > 25:
+    if jitter_rv > 100:
         return minf
 
     veloffset = fitsol[4]
-    if np.abs(veloffset) > 50:
+    if np.abs(veloffset) > 200:
         return minf
 
     rvamp = fitsol[np.arange(nplanets)*7 + 13]
