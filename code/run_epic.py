@@ -52,10 +52,12 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
     else:
         pool=None
 
-    ldfileloc = '/Users/tom/gitcode/redgiantGP/code/'
-    codedir = '/Users/tom/gitcode/redgiantGP/code'
+    # ldfileloc = '/Users/tom/gitcode/redgiantGP/code/'
+    # codedir = '/Users/tom/gitcode/redgiantGP/code'
     # ldfileloc = '/nobackupp8/tsbarcl2/redgiantGP/code/'        
     # codedir = '/nobackupp8/tsbarcl2/redgiantGP/code'
+    ldfileloc = './'
+    codedir = '.'
 
     koi = 2113
     cadence=1625.3
