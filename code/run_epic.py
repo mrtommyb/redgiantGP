@@ -74,10 +74,10 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
     period=8.40779432
     impact=9.19089038
     T0=2.30904885e+03
-    rprs=2.75201271e-02
+    rprs=2.95201271e-02
     alb=3.5
     occ=7.31677271e+00
-    ell=2.27423138e+01
+    ell=2.27423138e+00
     rvamp=1.06530139e+02
     ecosw=-1.05886257e-02
     esinw=4.45085906e-02
@@ -103,7 +103,7 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
     toffset_lc = 0
     toffset_rv = 0
 
-    zpt_0 = 1.E-6
+    zpt_0 = 1.E-7
 
     M = tmod.transitemcee_koi2133(
         nplanets,cadence,

@@ -206,25 +206,38 @@ class transitemcee_koi2133(transitemcee_rv.transitemcee_rv):
             p0[...,i*7+8+4] = truncnorm.rvs(
                 start,stop
                 ,loc=rprs,scale=rprs_unc,size=nwalkers)
+            
             start,stop = (-0.2 - ecosw) / ecosw_unc, (0.2 - ecosw) / ecosw_unc
             p0[...,i*7+9+4] = truncnorm.rvs(
                 start,stop
                 ,loc=ecosw,scale=ecosw_unc,size=nwalkers)
+            
             start,stop = (-0.2 - esinw) / esinw_unc, (0.2 - esinw) / esinw_unc
             p0[...,i*7+10+4] = truncnorm.rvs(
                 start,stop
                 ,loc=esinw,scale=esinw_unc,size=nwalkers)
-            p0[...,i*7+11+4] = np.random.normal(
-                rvamp,rvamp_unc,size=nwalkers)
+            
+            start,stop = (0. - rvamp) / rvamp_unc, (500. - rvamp) / rvamp_unc
+            p0[...,i*7+11+4] = truncnorm.rvs(
+                start,stop
+                ,loc=rvamp,scale=rvamp_unc,size=nwalkers)
 
-            p0[...,i*7+12+4] = np.random.normal(
-                occ,occ_unc,size=nwalkers)
 
-            p0[...,i*7+13+4] = np.random.normal(
-                ell,ell_unc,size=nwalkers)
+            start,stop = (0. - occ) / occ_unc, (100. - occ) / occ_unc
+            p0[...,i*7+12+4] = truncnorm.rvs(
+                start,stop
+                ,loc=occ,scale=occ_unc,size=nwalkers)
 
-            p0[...,i*7+14+4] = np.random.normal(
-                alb,alb_unc,size=nwalkers)
+            start,stop = (0.0 - ell) / ell_unc, (100. - ell) / ell_unc
+            p0[...,i*7+13+4] = truncnorm.rvs(
+                start,stop
+                ,loc=ell,scale=ell_unc,size=nwalkers)
+
+            start,stop = (0.0 - alb) / alb_unc, (100. - alb) / alb_unc
+            p0[...,i*7+14+4] = truncnorm.rvs(
+                start,stop
+                ,loc=alb,scale=alb_unc,size=nwalkers)
+
 
         #lcjitter
         start,stop = 0.0, 10.
