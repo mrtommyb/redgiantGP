@@ -231,6 +231,8 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
             iterations=fullrun, rstate0=state,
             storechain=False)):
             pbar.update()
+            if i % 1000 == 0:
+                print('at iteration {} of {}'.format(i,fullrun))
             #do the thinning in the loop here
             if i % thin == 0:
                 ind = i / thin
