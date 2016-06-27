@@ -257,6 +257,6 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
         return sampler
 
 if __name__ == '__main__':
-    sampler = main(runmpi=True,nw=100,th=1,bi=1,fr=50,use_hodlr=True)
+    sampler = main(runmpi=True,nw=100,th=1,bi=1,fr=500,use_hodlr=False)
 
 

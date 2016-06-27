@@ -120,7 +120,7 @@ class transitemcee_koi2133(transitemcee_rv.transitemcee_rv):
         rprs_unc = 0.0001
         ecosw_unc = 0.001
         esinw_unc = 0.001
-        rvamp_unc = 0.1
+        rvamp_unc = 0.01
         occ_unc = 0.01
         ell_unc = 0.01
         alb_unc = 0.01
@@ -218,7 +218,7 @@ class transitemcee_koi2133(transitemcee_rv.transitemcee_rv):
                 start,stop
                 ,loc=esinw,scale=esinw_unc,size=nwalkers)
             
-            start,stop = (-15 - rvamp) / rvamp_unc, (7 - rvamp) / rvamp_unc
+            start,stop = (3 - rvamp) / rvamp_unc, (7 - rvamp) / rvamp_unc
             p0[...,i*7+11+4] = truncnorm.rvs(
                 start,stop
                 ,loc=rvamp,scale=rvamp_unc,size=nwalkers)
@@ -366,7 +366,7 @@ def logchi2_rv_phaseGP2(fitsol,nplanets,rho_0,rho_0_unc,rho_prior,
         return minf
 
     if np.abs(rvamp) > 1000 or rvamp < 0.0:
-        print('should never execute, rvamp<0.0')
+        print('should rarely execute, rvamp  == {}'.format(rvamp))
         return minf
     if np.abs(occ) > 300 or occ < 0.:
         print('should never execute, occ<0.0')
