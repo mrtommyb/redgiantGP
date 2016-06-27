@@ -8,7 +8,7 @@ from scipy.stats import nanmedian, nanstd
 #import pyfits
 #import kplr
 
-import transitemcee_EPIC as tmod
+import transitemcee_EPIC_logpriors as tmod
 import emcee
 import time as thetime
 #import os
@@ -75,10 +75,10 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
     impact=9.19089038
     T0=2.30904885e+03
     rprs=2.95201271e-02
-    alb=3.5
-    occ=7.31677271e+00
-    ell=2.27423138e+00
-    rvamp=1.06530139e+02
+    alb=np.log(3.5)
+    occ=np.log(7.31677271e+00)
+    ell=np.log(2.27423138e+00)
+    rvamp=np.log(1.06530139e+02)
     ecosw=-1.05886257e-02
     esinw=4.45085906e-02
     planet_guess = np.array([
@@ -126,14 +126,12 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
     M.get_rho(rho_vals,rho_prior)
     M.get_zpt(zpt_0)
 
-    noise_model = [1.6E-4, 0.0019, 2.E-4, 3.]
-
+    noise_model = [np.log(1.6E-4), np.log(0.0019), -4., -4.]
 
     if dil is not None:
         M.get_sol(*planet_guess,dil=dil,noise_model=noise_model)
     else:
         M.get_sol(*planet_guess,noise_model=noise_model)
-
 
     outfile = 'koi{0}_np{1}_prior{2}_dil{3}GP.hdf5'.format(
             koi,nplanets,rho_prior,dil)
@@ -213,7 +211,6 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
             sampler = emcee.EnsembleSampler(nwalkers, l_var, tom,
                 args=args,threads=th)
 
-
         time1 = thetime.time()
         p2, prob, state = sampler.run_mcmc(p0, burnin,
             storechain=False)
@@ -258,6 +255,6 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
         return sampler
 
 if __name__ == '__main__':
-    sampler = main(runmpi=True,nw=100,th=1,bi=1,fr=1000,use_hodlr=True)
+    sampler = main(runmpi=True,nw=100,th=1,bi=1,fr=50,use_hodlr=True)
 
 
