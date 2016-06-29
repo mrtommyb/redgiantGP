@@ -316,10 +316,10 @@ def logchi2_rv_phaseGP2(fitsol,nplanets,rho_0,rho_0_unc,rho_prior,
     jitter_lc = np.exp(fitsol[-2])
     jitter_rv = np.exp(fitsol[-1])
 
-    if GP1 < 0.0:
+    if GP1 < 0.0 or GP1 > 10.0:
         print('should never execute, GP1<0.0')
         return minf
-    if GP2 < 0.0:
+    if GP2 < 0.0 or GP2 > 10.0:
         print('should never execute, GP2<0.0')
         return minf
 
@@ -358,7 +358,7 @@ def logchi2_rv_phaseGP2(fitsol,nplanets,rho_0,rho_0_unc,rho_prior,
         if np.any(T0 < T0 - tregion) or np.any(T0 > T0 + tregion):
             return minf
 
-    if np.abs(jitter_rv > 100):
+    if np.abs(jitter_rv > 500):
         return minf
 
     veloffset = fitsol[4]
@@ -368,27 +368,27 @@ def logchi2_rv_phaseGP2(fitsol,nplanets,rho_0,rho_0_unc,rho_prior,
     if np.abs(rvamp) > 1000 or rvamp < 0.0:
         print('should rarely execute, rvamp  == {}'.format(rvamp))
         return minf
-    if np.abs(occ) > 300 or occ < 0.:
-        print('should never execute, occ<0.0')
+    if np.abs(occ) > 1000 or occ < 0.:
+        print('should rarely execute, occ  == {}'.format(occ))
         return minf
-    if np.abs(ell) > 500 or ell < 0.:
-        print('should never execute, ell<0.0')
+    if np.abs(ell) > 1000 or ell < 0.:
+        print('should rarely execute, ell  == {}'.format(ell))
         return minf
-    if np.abs(alb) > 500 or alb < 0.:
-        print('should never execute, alb<0.0')
+    if np.abs(alb) > 1000 or alb < 0.:
+        print('should rarely execute, alb  == {}'.format(alb))
         return minf
     if ecc > 0.6:
         return minf
 
 
-    if jitter_lc < 0.0:
-        print('should never execute, lcjitter<0.0')
+    if jitter_lc < 0.0 or jitter_lc > 0.5:
+        print('should rarely execute, lcjutter  == {}'.format(jitter_lc))
         return minf
     err_jit = np.sqrt(err**2 + jitter_lc**2)
     err_jit2 = err**2 + jitter_lc**2
 
 
-    if jitter_rv < 0.0:
+    if jitter_rv < 0.0 or jitter_rv > 500.:
         print('should never execute, rv jitter<0.0')
         return minf
     rverr_jit = np.sqrt(rverr**2 + jitter_rv**2)
