@@ -188,6 +188,7 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
         lp_ds = g.create_dataset("lnprob",
             (nwalkers, N),
             dtype=np.float64)
+        f.close()
 
         #I don't like the default LDP unc
         #I'm changing them
@@ -214,10 +215,13 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
                 args=args,threads=th)
 
         time1 = thetime.time()
+        print(time1)
         p2, prob, state = sampler.run_mcmc(p0, burnin,
             storechain=False)
         sampler.reset()
+        print('done burnin')
         with h5py.File(outfile, u"a") as f:
+            print('writing burning data')
             g = f["mcmc"]
             g.create_dataset("burnin_pos", data=p2)
             g.create_dataset("burnin_prob", data=prob)
@@ -257,6 +261,6 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
         return sampler
 
 if __name__ == '__main__':
-    sampler = main(runmpi=True,nw=100,th=1,bi=1,fr=500,use_hodlr=False)
+    sampler = main(runmpi=True,nw=700,th=1,bi=2,fr=20000,use_hodlr=False)
 
 
