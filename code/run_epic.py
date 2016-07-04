@@ -217,7 +217,7 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
                 args=args,threads=th)
 
         time1 = thetime.time()
-        print(time1)
+#        print(time1)
         p2, prob, state = sampler.run_mcmc(p0, burnin,
             storechain=False)
         sampler.reset()
@@ -231,13 +231,13 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
         time2 = thetime.time()
         print('burn-in took ' + str((time2 - time1)/60.) + ' min')
         time1 = thetime.time()
-        pbar = ProgressBar(fullrun)
+#        pbar = ProgressBar(fullrun)
         for i, (pos, lnprob, state) in tqdm.tqdm(enumerate(sampler.sample(p2,
             iterations=fullrun, rstate0=state,
             storechain=False))):
-            pbar.update()
-            if i % 1000 == 0:
-                print('at iteration {} of {}'.format(i,fullrun))
+#            pbar.update()
+            # if i % 1000 == 0:
+            #     print('at iteration {} of {}'.format(i,fullrun))
             #do the thinning in the loop here
             if i % thin == 0:
                 ind = i / thin
@@ -263,6 +263,6 @@ def main(runmpi=True,nw=100,th=6,bi=10,fr=10,
         return sampler
 
 if __name__ == '__main__':
-    sampler = main(runmpi=True,nw=50,th=8,bi=1,fr=10,use_hodlr=True)
+    sampler = main(runmpi=True,nw=4000,th=8,bi=1,fr=1,use_hodlr=True)
 
 

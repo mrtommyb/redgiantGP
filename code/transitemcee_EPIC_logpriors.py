@@ -166,23 +166,23 @@ class transitemcee_koi2133(transitemcee_rv.transitemcee_rv):
                 ,loc=veloffset,scale=veloffset_unc,size=nwalkers)
 
         #noise parameters
-        start,stop = ((-9 - Lamp) / Lamp_unc,
-            (-8 - Lamp) / Lamp_unc)
+        start,stop = ((-8.9 - Lamp) / Lamp_unc,
+            (-8.1 - Lamp) / Lamp_unc)
         p0[...,5] = truncnorm.rvs(start,stop
                 ,loc=Lamp,scale=Lamp_unc,size=nwalkers)
 
-        start,stop = ((-7 - Lwid) / Lwid_unc,
-            (-5 - Lwid) / Lwid_unc)
+        start,stop = ((-6.9 - Lwid) / Lwid_unc,
+            (-6.1 - Lwid) / Lwid_unc)
         p0[...,6] = truncnorm.rvs(start,stop
                 ,loc=Lwid,scale=Lwid_unc,size=nwalkers)
 
-        start,stop = ((-9 - Gamp) / Gamp_unc,
-            (-8 - Gamp) / Gamp_unc)
+        start,stop = ((-20. - Gamp) / Gamp_unc,
+            (-1. - Gamp) / Gamp_unc)
         p0[...,7] = truncnorm.rvs(start,stop
                 ,loc=Gamp,scale=Gamp_unc,size=nwalkers)
 
-        start,stop = ((-7 - Gwid) / Gwid_unc,
-            (-5 - Gwid) / Gwid_unc)
+        start,stop = ((-20. - Gwid) / Gwid_unc,
+            (-1. - Gwid) / Gwid_unc)
         p0[...,8] = truncnorm.rvs(start,stop
                 ,loc=Gwid,scale=Gwid_unc,size=nwalkers)
 
@@ -242,7 +242,7 @@ class transitemcee_koi2133(transitemcee_rv.transitemcee_rv):
         #lcjitter
         start,stop = 0.0, 10.
         p0[...,-2] = truncnorm.rvs(start,stop,
-            loc=-18,scale=0.1,size=nwalkers)
+            loc=-4.,scale=0.1,size=nwalkers)
 
         #rvjitter
         start,stop = 0.0, 10.
@@ -307,8 +307,8 @@ def logchi2_rv_phaseGP2(fitsol,nplanets,rho_0,rho_0_unc,rho_prior,
         ld3, ld4 = 0.0,0.0
 
     # time to anti-log things
-    expGP1 = np.exp(fitsol[5])
-    expGP2 = np.exp(fitsol[6])
+    expGP1 = fitsol[5]
+    expGP2 = fitsol[6]
     GP1 = np.exp(fitsol[5])
     GP2 = np.exp(fitsol[6])
     rvamp = np.exp(fitsol[np.arange(nplanets)*7 + 13])
@@ -319,17 +319,17 @@ def logchi2_rv_phaseGP2(fitsol,nplanets,rho_0,rho_0_unc,rho_prior,
     jitter_rv = np.exp(fitsol[-1])
 
     if GP1 < 0.0 or GP1 > 10.0:
-        print('should never execute, GP1<0.0')
+    #    print('should never execute, GP1<0.0')
         return minf
     if GP2 < 0.0 or GP2 > 10.0:
-        print('should never execute, GP2<0.0')
+    #    print('should never execute, GP2<0.0')
         return minf
 
     if expGP1 < -11. or expGP1 > -6.:
-        print('expGP1 == {}'.format(expGP1))
+    #    print('expGP1 == {}'.format(expGP1))
         return minf
     if expGP2 < -8. or expGP2 > -4.:
-        print('expGP2 == {}'.format(expGP2))
+     #   print('expGP2 == {}'.format(expGP2))
         return minf
 
 
@@ -375,30 +375,30 @@ def logchi2_rv_phaseGP2(fitsol,nplanets,rho_0,rho_0_unc,rho_prior,
         return minf
 
     if np.abs(rvamp) > 1.E6 or rvamp < 0.0:
-        print('should rarely execute, rvamp  == {}'.format(rvamp))
+    #    print('should rarely execute, rvamp  == {}'.format(rvamp))
         return minf
     if np.abs(occ) > 1.E6 or occ < 0.:
-        print('should rarely execute, occ  == {}'.format(occ))
+    #    print('should rarely execute, occ  == {}'.format(occ))
         return minf
     if np.abs(ell) > 1.E6 or ell < 0.:
-        print('should rarely execute, ell  == {}'.format(ell))
+    #    print('should rarely execute, ell  == {}'.format(ell))
         return minf
     if np.abs(alb) > 1.E6 or alb < 0.:
-        print('should rarely execute, alb  == {}'.format(alb))
+    #    print('should rarely execute, alb  == {}'.format(alb))
         return minf
     if ecc > 0.6:
         return minf
 
 
     if jitter_lc < 0.0 or jitter_lc > 0.7:
-        print('should rarely execute, lcjutter  == {}'.format(jitter_lc))
+    #    print('should rarely execute, lcjutter  == {}'.format(jitter_lc))
         return minf
     err_jit = np.sqrt(err**2 + jitter_lc**2)
     err_jit2 = err**2 + jitter_lc**2
 
 
     if jitter_rv < 0.0 or jitter_rv > 500.:
-        print('should never execute, rv jitter<0.0')
+    #    print('should never execute, rv jitter<0.0')
         return minf
     rverr_jit = np.sqrt(rverr**2 + jitter_rv**2)
     rverr_jit2 = rverr**2 + jitter_rv**2
