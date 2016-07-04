@@ -39,6 +39,7 @@ def get_lc():
     time,flux,ferr = np.genfromtxt(
         '../data/2133_lc_tom.txt',unpack=True)
     flux -= 1.0 #make the median zero
+    ferr /= 5. # testing
     return time,flux,ferr
 
 
